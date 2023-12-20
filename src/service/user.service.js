@@ -22,9 +22,9 @@ function createUser(name, surname, email, pwd) {
     const newObj = {
         id: Math.max(...arr.map(el => el.id)) + 1, name, surname, email, pwd
     }
+    const filtered = arr.filter(el => el.email == newObj.email)
+    if (filtered.length) throw new Error('Such email already exists')
     if (arr.id !== newObj.id) arr.push(newObj)
-    const filtered = arr.filter(el => el.email == email)
-    // if (filtered) throw new Error('Such email already exists')
     fs.writeFileSync('./src/repository/storage.json', JSON.stringify(arr))
     return arr
 }
@@ -35,18 +35,18 @@ function updateUser(id, name, surname, email, pwd) {
         id, name, surname, email, pwd
     }
     const data = arr.findIndex(el => el.id == id)
+    if (data < 0) throw new Error('User with such id not found')
     arr[data] = newData
     fs.writeFileSync('./src/repository/storage.json', JSON.stringify(arr))
-    if (!data.length) throw new Error('User with such id not found')
     // writeUsers(data)
     return arr
 }
 
 function deleteUserData(id) {
     // const arr = userRepository()
-    const data = arr.filter(el => el.id !== id)
+    const data = arr.filter(el => el.id != id)
     fs.writeFileSync('./src/repository/storage.json', JSON.stringify(data))
-    // if (data.length == arr.length) throw new Error('Such id not found')
+    if (data.length == arr.length) throw new Error('Such id not found')
     // writeUsers(data)
     return data
 }
