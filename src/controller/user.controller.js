@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { getAllData, getDataById, createUser, updateUser, deleteUserData } = require('../service/user.service')
+const { getAllData, getDataById, createUser, updateUser, deleteUser, updateBody } = require('../service/user.service')
 
 router.get('/', (req, res) => {
     try {
@@ -35,8 +35,8 @@ router.put('/:id', (req, res) => {
     try {
         const { id } = req.params
         const { name, surname, email, pwd } = req.body
-        const data = updateUser(id, name, surname, email, pwd)
-        res.status(200).send(data)
+        const updatedData = updateUser(id, name, surname, email, pwd)
+        res.status(200).send(updatedData)
     } catch (error) {
         res.status(404).send(error.message)
     }
@@ -45,8 +45,19 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
     try {
         const { id } = req.params
-        const data = deleteUserData(id)
-        res.status(200).send(data)
+        const result = deleteUser(id)
+        res.status(200).send(result)
+    } catch (error) {
+        res.status(404).send(error.message)
+    }
+})
+
+router.patch('/:id', (req, res) => {
+    try {
+        const { id } = req.params
+        const body = req.body
+        const result = updateBody(id, body)
+        res.status(200).send(result)
     } catch (error) {
         res.status(404).send(error.message)
     }

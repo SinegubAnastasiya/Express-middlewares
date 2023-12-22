@@ -2,23 +2,23 @@
 // const json = fs.readFileSync('./src/repository/storage.json')
 // const arr = JSON.parse(json)
 
-const { userRepository, writeUsers } = require('../repository/user.repository')
+const { getUserFileStore, writeUsers } = require('./user-file.service')
 
 function getAllData() {
-    const arr = userRepository()
+    const arr = getUserFileStore()
     if (!arr.length) throw new Error('Array is empty') 
     return arr
 }
 
 function getDataById(id) {
-    const arr = userRepository()
+    const arr = getUserFileStore()
     const filteredData = arr.filter(el => el.id == id)
     if (!filteredData.length) throw new Error('Such id not found')
     return filteredData
 }
 
 function createUser(name, surname, email, pwd) {
-    const arr = userRepository()
+    const arr = getUserFileStore()
     const newObj = {
         id: Math.max(...arr.map(el => el.id)) + 1, name, surname, email, pwd
     }
@@ -31,25 +31,33 @@ function createUser(name, surname, email, pwd) {
 }
 
 function updateUser(id, name, surname, email, pwd) {
-    const arr = userRepository()
-    const newData = {
+    const arr = getUserFileStore()
+    const index = arr.findIndex(el => el.id == id)
+    if (index < 0) throw new Error('User with such id not found')
+    const newObj = {
         id, name, surname, email, pwd
     }
-    const data = arr.findIndex(el => el.id == id)
-    if (data < 0) throw new Error('User with such id not found')
-    arr[data] = newData
-    // fs.writeFileSync('./src/repository/storage.json', JSON.stringify(arr))
+    arr[index] = newObj
     writeUsers(arr)
     return arr
 }
 
-function deleteUserData(id) {
-    const arr = userRepository()
+function deleteUser(id) {
+    const arr = getUserFileStore()
     const data = arr.filter(el => el.id != id)
-    // fs.writeFileSync('./src/repository/storage.json', JSON.stringify(data))
     writeUsers(data)
     if (data.length == arr.length) throw new Error('Such id not found')
     return data
 }
 
-module.exports = { getAllData, getDataById, createUser, updateUser, deleteUserData }
+function updateBody(id, body) {
+    const arr = getUserFileStore()
+    const index = arr.findIndex(el => el.id == id)
+    if (index < 0) throw new Error('User with such id not found')
+    const item = arr[index]
+    arr[index] = { ...item, ...body }
+    writeUsers(arr)
+    return arr
+}
+
+module.exports = { getAllData, getDataById, createUser, updateUser, deleteUser, updateBody }
