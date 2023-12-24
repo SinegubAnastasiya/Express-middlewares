@@ -18,4 +18,17 @@ function isValidUser(req, res, next) {
     next()
 }
 
-module.exports = { isValidUser }
+function isValidUserId(req, res, next) {
+    if (!req.params.hasOwnProperty('id')) throw new Error('Id not found')
+
+    const { id } = req.params
+    
+    if (id < 0) throw new Error('Id < 0')
+    if (typeof (id) !== 'number' && typeof (id) !== 'string') throw new Error('Id is not a number or string')
+    if (isNaN(id)) throw new Error('Id is not a number')
+    if (!id) throw new Error('Id is empty')
+
+    next()
+}
+
+module.exports = { isValidUser, isValidUserId }
