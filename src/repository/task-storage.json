@@ -1,0 +1,13 @@
+[
+    { "id": 1, "title": "string", "date": "23-06-2023", "hours": "3", "teacher":
+    "Hanna" },
+    { "id": 2, "title": "number", "date": "27-06-2023", "hours": "2", "teacher": "Arthur" },
+    { "id": 3, "title": "inheritance", "date": "15-09-2023", "hours": "4", "teacher":
+    "Oleg" },
+    { "id": 4, "title": "polymorphism", "date": "10-10-2023", "hours": "3", "teacher": "Pavel" },
+    { "id": 5, "title": "function", "date": "09-09-2023", "hours": "6", "teacher": "Ann"
+    },
+    { "id": 6, "title": "node", "date": "12-12-2023", "hours": "8", "teacher": "Viktoria" },
+    { "id": 7, "title": "repeat", "date": "19-11-2023", "hours": "2", "teacher": "Dasha" },
+    { "id": 8, "title": "express", "date": "16-12-2023", "hours": "8", "teacher": "Stas" }
+]

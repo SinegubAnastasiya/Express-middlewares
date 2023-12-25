@@ -1,9 +1,9 @@
 const express = require('express')
-const router = express.Router()
+const route = express.Router()
 const { getAllData, getDataById, createUser, updateUser, deleteUser, updateBody } = require('../service/user.service')
 const { isValidUser, isValidUserId } = require('../helper/validation')
 
-router.get('/', (req, res) => {
+route.get('/', (req, res) => {
     try {
         const data = getAllData()
         res.status(200).send(data)
@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
     }
 })
 
-router.get('/:id', isValidUserId, (req, res) => {
+route.get('/:id', isValidUserId, (req, res) => {
     try {
         const { id } = req.params
         const data = getDataById(id)
@@ -22,7 +22,7 @@ router.get('/:id', isValidUserId, (req, res) => {
     }
 })
 
-router.post('/', isValidUser, (req, res) => {
+route.post('/', isValidUser, (req, res) => {
     try {
         const { name, surname, email, pwd } = req.body
         const addedData = createUser(name, surname, email, pwd)
@@ -32,7 +32,7 @@ router.post('/', isValidUser, (req, res) => {
     }
 })
 
-router.put('/:id', isValidUserId, isValidUser, (req, res) => {
+route.put('/:id', isValidUserId, isValidUser, (req, res) => {
     try {
         const { id } = req.params
         const { name, surname, email, pwd } = req.body
@@ -43,7 +43,7 @@ router.put('/:id', isValidUserId, isValidUser, (req, res) => {
     }
 })
 
-router.delete('/:id', isValidUserId, (req, res) => {
+route.delete('/:id', isValidUserId, (req, res) => {
     try {
         const { id } = req.params
         const result = deleteUser(id)
@@ -53,7 +53,7 @@ router.delete('/:id', isValidUserId, (req, res) => {
     }
 })
 
-router.patch('/:id', isValidUserId, (req, res) => {
+route.patch('/:id', isValidUserId, (req, res) => {
     try {
         const { id } = req.params
         const body = req.body
@@ -64,4 +64,4 @@ router.patch('/:id', isValidUserId, (req, res) => {
     }
 })
 
-module.exports = router
+module.exports = route
