@@ -1,7 +1,7 @@
 const express = require('express')
 const route = express.Router()
 const object = require('../service/task.service')
-
+const { isValidTaskId, isValidTask } = require('../helper/task-validation')
 
 route.get('/', (req,res) => {
     try {
@@ -12,7 +12,7 @@ route.get('/', (req,res) => {
     }
 })
 
-route.get('/:id', (req,res) => {
+route.get('/:id', isValidTaskId, (req,res) => {
     try {
         const { id } = req.params
         res.status(200).send(object.getTaskById(id))
@@ -21,7 +21,7 @@ route.get('/:id', (req,res) => {
     }
 })
 
-route.put('/:id', (req,res) => {
+route.put('/:id', isValidTaskId, isValidTask, (req,res) => {
     try {
         const { id } = req.params
         const { title, date, hours, teacher } = req.body
@@ -31,7 +31,7 @@ route.put('/:id', (req,res) => {
     }
 })
 
-route.post('/', (req,res) => {
+route.post('/', isValidTask, (req,res) => {
     try {
         const { title, date, hours, teacher } = req.body
         res.status(200).send(object.createNewTask(title, date, hours, teacher))
@@ -40,7 +40,7 @@ route.post('/', (req,res) => {
     }
 })
 
-route.delete('/:id', (req,res) => {
+route.delete('/:id', isValidTaskId, (req,res) => {
     try {
         const { id } = req.params
         res.status(200).send(object.deleteTaskById(id))
@@ -49,7 +49,7 @@ route.delete('/:id', (req,res) => {
     }
 })
 
-route.patch('/:id', (req,res) => {
+route.patch('/:id',isValidTaskId, (req,res) => {
     try {
         const { id } = req.params
         const body = req.body
